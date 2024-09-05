@@ -1,4 +1,4 @@
-import type { Presentation, Slide, SlideCollection, SlideObject, ObjectText } from "./types";
+import type { Presentation, Slide, SlideCollection, SlideObject, TextArea } from "./types";
 
 function changePresentationTitle(title: string, presentation: Presentation): Presentation {
     return {
@@ -90,11 +90,6 @@ function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY:
     objectToMove.x = newX;
     objectToMove.y = newY;
 
-    objectToMove.text.x = newX;
-    objectToMove.text.y = newY;
-
-    // Recalculate width and height
-
     objects.push(objectToMove);
 
     return {
@@ -103,7 +98,7 @@ function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY:
     }
 }
 
-function moveText(textToMove: ObjectText, newX: number, newY: number): ObjectText {
+function moveText(textToMove: TextArea, newX: number, newY: number): TextArea {
     return {
         ...textToMove,
         x: newX,
@@ -111,43 +106,43 @@ function moveText(textToMove: ObjectText, newX: number, newY: number): ObjectTex
     }
 }
 
-function changeTextValue(object: SlideObject, newValue: string): SlideObject {
-    let text = object.text
-    text.value = newValue
+function changeTextValue(textArea: TextArea, newValue: string): TextArea {
+    let value = textArea.value
+    value = newValue
 
     return {
-        ...object,
-        text: text
+        ...textArea,
+        value: value
     }
 }
 
-function changeTextFont(object: SlideObject, newFont: string): SlideObject {
-    let text = object.text
-    text.font = newFont
+function changeTextFont(textArea: TextArea, newFont: string): TextArea {
+    let font = textArea.font
+    font = newFont
 
     return {
-        ...object,
-        text: text
+        ...textArea,
+        font: font
     }
 }
 
-function changeTextColor(object: SlideObject, newColor: string): SlideObject {
-    let text = object.text
-    text.color = newColor
+function changeTextColor(textArea: TextArea, newColor: string): TextArea {
+    let color = textArea.color
+    color = newColor
 
     return {
-        ...object,
-        text: text
+        ...textArea,
+        color: color
     }
 }
 
-function changeTextScale(object: SlideObject, newScale: number): SlideObject {
-    let text = object.text
-    text.scale = newScale
+function changeTextScale(textArea: TextArea, newScale: number): TextArea {
+    let scale = textArea.scale
+    scale = newScale
 
     return {
-        ...object,
-        text: text
+        ...textArea,
+        scale: scale
     }
 }
 

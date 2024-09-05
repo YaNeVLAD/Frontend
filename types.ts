@@ -32,27 +32,30 @@ type SlideObject = {
 
     x: number,
     y: number,
-    width: number,
-    height: number,
 
     color: string | null,
     scale: number,
     turnAngle: number,
-    text: ObjectText,
     isSelected: boolean
 }
 
-type ObjectText = {
-    x: number,
-    y: number,
+type Rectangle = SlideObject & {
     width: number,
     height: number,
-
-    value: string,
-    scale: number,
-    color: string,
-    font: string,
-    isSelected: boolean
 }
 
-export { Presentation, Slide, OverallSelection, SlideCollection, SlideObject, ObjectText }
+type Circle = SlideObject & {
+    radius: number
+}
+
+type TextArea = SlideObject & {
+    width: number,
+    height: number,
+    
+    value: string,
+    font: string,
+    textScale: number,
+    textColor: string,
+}
+
+export { Presentation, Slide, OverallSelection, SlideCollection, SlideObject, Rectangle, Circle, TextArea }
