@@ -29,21 +29,30 @@ type ObjectSelection = {
 
 type SlideObject = {
     id: number,
+
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+
     color: string | null,
     scale: number,
     turnAngle: number,
-    text: ObjectText | null
+    text: ObjectText,
+    isSelected: boolean
 }
 
 type ObjectText = {
-    text: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+
+    value: string,
     scale: number,
     color: string,
-    font: string
+    font: string,
+    isSelected: boolean
 }
 
 export { Presentation, Slide, OverallSelection, SlideCollection, SlideObject, ObjectText }

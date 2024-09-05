@@ -1,5 +1,7 @@
 function calc(inputString: string): number {
-    const tokens: RegExpMatchArray | null = inputString.match(/[\d.]+|[-+*/()]|[^()\s]+/g);
+    const supportedOperators = ['+', '-', '*', '/']
+
+    const tokens: RegExpMatchArray | null = inputString.match(/[-\d]+|[-+*/()]|[^()\s]+/g);
 
     let index: number = 0;
 
@@ -7,7 +9,7 @@ function calc(inputString: string): number {
 
     function handleToken(): number {
         if (tokens == null) {
-            throw new Error("Некорректное выражение");
+            throw new Error("Передана пустая строка");
         }
 
         const token = tokens[index++];
@@ -22,9 +24,9 @@ function calc(inputString: string): number {
         }
 
         //handleOperator
-        if (['+', '-', '*', '/'].indexOf(token) != -1) {
-            const left: number = handleToken(); // Рекурсивно обрабатываем левый операнд
-            const right: number = handleToken(); // Рекурсивно обрабатываем правый операнд
+        if (supportedOperators.indexOf(token) != -1) {
+            const left: number = handleToken();
+            const right: number = handleToken();
 
             switch (token) {
                 case "+":
@@ -50,7 +52,7 @@ function calc(inputString: string): number {
             return value;
         }
 
-        throw new Error(`Неизвестный токен: ${token}`);
+        throw new Error('Неизвестный токен: '.concat(token));
     }
 }
 
@@ -61,7 +63,8 @@ try {
     console.log(calc("+ 3 ( * 2 3 )")); // 3 + (2 * 3) = 9
     console.log(calc("- 10 / 20 2")); // 10 - (20 / 2) = 0
     console.log(calc('- 3 ( * 4 ( + 1 2 ) )')); // 3 - (4 * (1 + 2)) = 3 - (4 * 3) = 3 - 12 = -9
-    console.log(calc('* ( / ( + 2 2 ) ( -6 4 ) ) 7'));
+    // console.log(calc('* ( / ( + 2 2 ) ( -6 4 ) ) 7'));
+    console.log(calc('-5'));
 } catch (e) {
     console.log(e.message);
 }
