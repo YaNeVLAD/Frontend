@@ -2,7 +2,7 @@
   "name": "presentation_maker",
   "version": "1.0.0",
   "description": "Presentation Maker. My study project",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {},
   "author": "Kovalev Vladislav",
   "license": "ISC",

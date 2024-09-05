@@ -51,11 +51,11 @@ type Circle = SlideObject & {
 type TextArea = SlideObject & {
     width: number,
     height: number,
-    
+
     value: string,
     font: string,
     textScale: number,
     textColor: string,
 }
 
-export { Presentation, Slide, OverallSelection, SlideCollection, SlideObject, Rectangle, Circle, TextArea }
+export { Presentation, Slide, OverallSelection, SlideCollection, ObjectSelection, SlideObject, Rectangle, Circle, TextArea }
