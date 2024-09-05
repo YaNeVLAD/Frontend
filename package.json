@@ -1,0 +1,12 @@
+{
+  "name": "presentation_maker",
+  "version": "1.0.0",
+  "description": "Presentation Maker. My study project",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Kovalev Vladislav",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
