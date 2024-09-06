@@ -1,4 +1,4 @@
-import type { Presentation, Slide, SlideCollection, SlideObject, TextArea } from "./types";
+import type { Presentation, Slide, SlideObject, TextArea } from "./types";
 
 function changePresentationTitle(title: string, presentation: Presentation): Presentation {
     return {
@@ -8,8 +8,8 @@ function changePresentationTitle(title: string, presentation: Presentation): Pre
 }
 
 function addSlide(slide: Slide, presentation: Presentation): Presentation {
-    let slides: SlideCollection = presentation.slides;
-    slides.slidesArray.push(slide);
+    let slides: Array<Slide> = presentation.slides;
+    slides.push(slide);
 
     return {
         ...presentation,
@@ -18,14 +18,18 @@ function addSlide(slide: Slide, presentation: Presentation): Presentation {
 }
 
 function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
-    let index: number = presentation.slides.slidesArray.indexOf(slide);
+    if (slide.isSelected == false) {
+        throw new Error('Can\'t delete slide that isn\'t selected');
+    }
+
+    let index: number = presentation.slides.indexOf(slide);
 
     if (index == -1) {
         throw new Error('Slide doesn\'t exist in presentation')
     }
 
-    let slides: SlideCollection = presentation.slides;
-    slides.slidesArray.splice(index, 1);
+    let slides: Array<Slide> = presentation.slides;
+    slides.splice(index, 1);
 
     return {
         ...presentation,
@@ -34,6 +38,9 @@ function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
 }
 
 function moveSlide(slide: Slide, from: number, to: number, presentation: Presentation): Presentation {
+    if (slide.isSelected == false) {
+        throw new Error('Can\'t move slide that isn\'t selected');
+    }
 
     return {
         ...presentation
@@ -41,6 +48,10 @@ function moveSlide(slide: Slide, from: number, to: number, presentation: Present
 }
 
 function changeSlideBackground(slide: Slide, newBackground: string): Slide {
+    if (slide.isSelected == false) {
+        throw new Error('Can\'t change background of slide that isn\'t selected');
+    }
+    
     let background = slide.background;
 
     background = newBackground
@@ -52,6 +63,10 @@ function changeSlideBackground(slide: Slide, newBackground: string): Slide {
 }
 
 function addObject(slide: Slide, object: SlideObject): Slide {
+    if (slide.isSelected == false) {
+        throw new Error('Can\'t add object on slide that isn\'t selected');
+    }
+
     let objects = slide.objects;
     objects.push(object);
 
@@ -62,6 +77,14 @@ function addObject(slide: Slide, object: SlideObject): Slide {
 }
 
 function deleteObject(slide: Slide, object: SlideObject): Slide {
+    if (slide.isSelected == false) {
+        throw new Error('Can\'t delete object on slide that isn\'t selected');
+    }
+
+    if (object.isSelected == false) {
+        throw new Error('Can\'t delete object that isn\'t selected');
+    }
+
     let objects: Array<SlideObject> = slide.objects;
     let index: number = objects.findIndex((it) => { it == object });
 
@@ -78,6 +101,10 @@ function deleteObject(slide: Slide, object: SlideObject): Slide {
 }
 
 function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY: number): Slide {
+    if (objectToMove.isSelected == false) {
+        throw new Error('Can\'t move object that isn\'t selected');
+    }
+
     let objects: Array<SlideObject> = slide.objects;
     let index = objects.findIndex((it) => { it == objectToMove });
 
@@ -99,6 +126,10 @@ function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY:
 }
 
 function moveText(textToMove: TextArea, newX: number, newY: number): TextArea {
+    if (textToMove.isSelected == false) {
+        throw new Error('Can\'t move text area that isn\'t selected');
+    }
+
     return {
         ...textToMove,
         x: newX,
@@ -107,6 +138,10 @@ function moveText(textToMove: TextArea, newX: number, newY: number): TextArea {
 }
 
 function changeTextValue(textArea: TextArea, newValue: string): TextArea {
+    if (textArea.isSelected == false) {
+        throw new Error('Can\'t change value in text area that isn\'t selected');
+    }
+
     let value = textArea.value
     value = newValue
 
@@ -117,6 +152,10 @@ function changeTextValue(textArea: TextArea, newValue: string): TextArea {
 }
 
 function changeTextFont(textArea: TextArea, newFont: string): TextArea {
+    if (textArea.isSelected == false) {
+        throw new Error('Can\'t change font in text area that isn\'t selected');
+    }
+
     let font = textArea.font
     font = newFont
 
@@ -127,22 +166,30 @@ function changeTextFont(textArea: TextArea, newFont: string): TextArea {
 }
 
 function changeTextColor(textArea: TextArea, newColor: string): TextArea {
+    if (textArea.isSelected == false) {
+        throw new Error('Can\'t change color in text area that isn\'t selected');
+    }
+
     let color = textArea.color
     color = newColor
 
     return {
         ...textArea,
-        color: color
+        textColor: color
     }
 }
 
 function changeTextScale(textArea: TextArea, newScale: number): TextArea {
+    if (textArea.isSelected == false) {
+        throw new Error('Can\'t change scale in text area that isn\'t selected');
+    }
+
     let scale = textArea.scale
     scale = newScale
 
     return {
         ...textArea,
-        scale: scale
+        textScale: scale
     }
 }
 

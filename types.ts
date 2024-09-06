@@ -1,6 +1,6 @@
 type Presentation = {
     title: string,
-    slides: SlideCollection
+    slides: Array<Slide>
 }
 
 type Slide = {
@@ -10,21 +10,9 @@ type Slide = {
     isSelected: boolean
 }
 
-type SlideCollection = {
-    slidesArray: Array<Slide>
-}
-
-type OverallSelection = {
-    slides: SlideSelection,
-    objects: ObjectSelection
-}
-
-type SlideSelection = {
-    selected: Array<Slide>
-}
-
-type ObjectSelection = {
-    selected: Array<SlideObject>
+type PresentationSelection = {
+    slides: Array<Slide>,
+    objects: Array<SlideObject>
 }
 
 type SlideObject = {
@@ -58,4 +46,4 @@ type TextArea = SlideObject & {
     textColor: string,
 }
 
-export { Presentation, Slide, OverallSelection, SlideCollection, ObjectSelection, SlideObject, Rectangle, Circle, TextArea }
+export { Presentation, Slide, PresentationSelection, SlideObject, Rectangle, Circle, TextArea }
