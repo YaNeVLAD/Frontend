@@ -1,7 +1,7 @@
 {
   "name": "presentation_maker",
   "version": "1.0.0",
-  "description": "Presentation Maker. My study project",
+  "description": "Presentation Maker. Study project. Requirements: https://shorturl.at/YVwsp",
   "main": "index.ts",
   "scripts": {},
   "author": "Kovalev Vladislav",

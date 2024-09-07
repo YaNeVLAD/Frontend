@@ -6,14 +6,23 @@ type Presentation = {
 type Slide = {
     id: number,
     objects: Array<SlideObject>,
-    background: string,
+    background: Background,
     isSelected: boolean
 }
 
-type PresentationSelection = {
-    slides: Array<Slide>,
-    objects: Array<SlideObject>
+enum PictureType {
+    link = 'P',
+    filled = 'F',
+    gradient = 'G'
 }
+
+type Background = {
+    type: PictureType,
+    payload: string
+}
+
+//!ГОТОВО! В background нужно избавиться от строки
+//!ГОТОВО! Убрать дублирование выделения
 
 type SlideObject = {
     id: number,
@@ -22,7 +31,6 @@ type SlideObject = {
     y: number,
 
     color: string | null,
-    scale: number,
     turnAngle: number,
     isSelected: boolean
 }
@@ -32,8 +40,8 @@ type Rectangle = SlideObject & {
     height: number,
 }
 
-type Circle = SlideObject & {
-    radius: number
+type Picture = SlideObject & Rectangle & {
+    background: Background
 }
 
 type TextArea = SlideObject & {
@@ -46,4 +54,4 @@ type TextArea = SlideObject & {
     textColor: string,
 }
 
-export { Presentation, Slide, PresentationSelection, SlideObject, Rectangle, Circle, TextArea }
+export { Presentation, Slide, Background, PictureType, SlideObject, Picture, TextArea }

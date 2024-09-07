@@ -1,4 +1,4 @@
-import type { Presentation, Slide, SlideObject, TextArea } from "./types";
+import { PictureType, type Background, type Presentation, type Slide, type SlideObject, type TextArea } from "./types";
 
 function changePresentationTitle(title: string, presentation: Presentation): Presentation {
     return {
@@ -10,6 +10,8 @@ function changePresentationTitle(title: string, presentation: Presentation): Pre
 function addSlide(slide: Slide, presentation: Presentation): Presentation {
     let slides: Array<Slide> = presentation.slides;
     slides.push(slide);
+
+    slide.isSelected = true;
 
     return {
         ...presentation,
@@ -23,7 +25,6 @@ function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
     }
 
     let index: number = presentation.slides.indexOf(slide);
-
     if (index == -1) {
         throw new Error('Slide doesn\'t exist in presentation')
     }
@@ -47,11 +48,15 @@ function moveSlide(slide: Slide, from: number, to: number, presentation: Present
     }
 }
 
-function changeSlideBackground(slide: Slide, newBackground: string): Slide {
+function changeSlideBackground(slide: Slide, newBackground: Background): Slide {
     if (slide.isSelected == false) {
-        throw new Error('Can\'t change background of slide that isn\'t selected');
+        throw new Error('Can\'t change background on slide that isn\'t selected');
     }
     
+    if (!(newBackground.type in PictureType)) {
+        throw new Error('Wrong background type')
+    }
+
     let background = slide.background;
 
     background = newBackground
@@ -170,7 +175,7 @@ function changeTextColor(textArea: TextArea, newColor: string): TextArea {
         throw new Error('Can\'t change color in text area that isn\'t selected');
     }
 
-    let color = textArea.color
+    let color = textArea.textColor
     color = newColor
 
     return {
@@ -184,7 +189,7 @@ function changeTextScale(textArea: TextArea, newScale: number): TextArea {
         throw new Error('Can\'t change scale in text area that isn\'t selected');
     }
 
-    let scale = textArea.scale
+    let scale = textArea.textScale
     scale = newScale
 
     return {
