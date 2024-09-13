@@ -1,57 +1,72 @@
 type Presentation = {
     title: string,
     slides: Array<Slide>
+    selection: GlobalSelection
+}
+
+type GlobalSelection = {
+    SelectedSlidesIds: Array<string>,
+    SelectedObjectsIds: Array<string>,
 }
 
 type Slide = {
-    id: number,
+    id: string,
     objects: Array<SlideObject>,
-    background: Background,
-    isSelected: boolean
+    background: SolidColor | GradientColor | ImageSrc,
 }
 
-enum PictureType {
-    link = 'P',
-    filled = 'F',
-    gradient = 'G'
+type SolidColor = {
+    color: string,
+    type: 'solid',
+}   
+
+type GradientColor = {
+    color: string,
+    type: 'gradient',
+}
+
+type ImageSrc = {
+    src: string,
+    type: 'image',
 }
 
 type Background = {
-    type: PictureType,
-    payload: string
+    type: 'solid' | 'gradient' | 'image',
 }
-
-//!ГОТОВО! В background нужно избавиться от строки
-//!ГОТОВО! Убрать дублирование выделения
 
 type SlideObject = {
-    id: number,
+    id: string,
 
-    x: number,
-    y: number,
-
-    color: string | null,
+    pos: {
+        x: number,
+        y: number,
+    },
+    size: {
+        width: number,
+        height: number,
+    },
     turnAngle: number,
-    isSelected: boolean
 }
 
-type Rectangle = SlideObject & {
-    width: number,
-    height: number,
-}
-
-type Picture = SlideObject & Rectangle & {
-    background: Background
+type Image = SlideObject & {
+    src: string,
 }
 
 type TextArea = SlideObject & {
-    width: number,
-    height: number,
-
     value: string,
     font: string,
-    textScale: number,
-    textColor: string,
+    color: string
+    textSize: number,
 }
 
-export { Presentation, Slide, Background, PictureType, SlideObject, Picture, TextArea }
+// type TextArea = SlideObject & {
+//     width: number,
+//     height: number,
+
+//     value: string,
+//     font: string,
+//     textScale: number,
+//     textColor: string,
+// }
+
+export { Presentation, Slide, GlobalSelection, Background, SlideObject, TextArea, Image, ImageSrc, SolidColor, GradientColor }
