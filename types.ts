@@ -1,9 +1,9 @@
 type Presentation = {
     title: string,
     slides: Array<Slide>
-    selection: GlobalSelection
+    selection: GlobalSelection,
 }
-
+//Решить можно ли будет выделять объекты на слайде, когда выделено несколько слайдов
 type GlobalSelection = {
     SelectedSlidesIds: Array<string>,
     SelectedObjectsIds: Array<string>,
@@ -30,12 +30,9 @@ type ImageSrc = {
     type: 'image',
 }
 
-type Background = {
-    type: 'solid' | 'gradient' | 'image',
-}
-
 type SlideObject = {
     id: string,
+    type: 'imageObj' | 'textObj'
 
     pos: {
         x: number,
@@ -47,26 +44,19 @@ type SlideObject = {
     },
     turnAngle: number,
 }
-
+//Хранить не массив SlideObject, а массив из картинок/текстов
+//Как отличить их в массиве друг от друга
 type Image = SlideObject & {
-    src: string,
+    type: 'imageObj',
+    src: ImageSrc,
 }
 
 type TextArea = SlideObject & {
+    type: 'textObj',
     value: string,
     font: string,
     color: string
     textSize: number,
 }
 
-// type TextArea = SlideObject & {
-//     width: number,
-//     height: number,
-
-//     value: string,
-//     font: string,
-//     textScale: number,
-//     textColor: string,
-// }
-
-export { Presentation, Slide, GlobalSelection, Background, SlideObject, TextArea, Image, ImageSrc, SolidColor, GradientColor }
+export { Presentation, Slide, GlobalSelection, SlideObject, TextArea, Image, ImageSrc, SolidColor, GradientColor }

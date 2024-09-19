@@ -8,7 +8,7 @@ function changePresentationTitle(title: string, presentation: Presentation): Pre
 }
 
 function addSlide(slide: Slide, presentation: Presentation): Presentation {
-    const slides = presentation.slides;
+    const slides: Array<Slide> = presentation.slides;
     slides.push(slide);
 
     return {
@@ -34,23 +34,34 @@ function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
     const modifiedSlides: Array<Slide> = presentation.slides;
     modifiedSlides.splice(index, 1);
 
+    const modifiedSelection: GlobalSelection = presentation.selection;
+    modifiedSelection.SelectedSlidesIds.splice(index, 1);
+
     return {
         ...presentation,
-        slides: modifiedSlides
+        slides: modifiedSlides,
+        selection: modifiedSelection
     }
 }
 
-function moveSlide(slide: Slide, to: number, presentation: Presentation): Presentation {
-    if (presentation.selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
+function moveSlide(slideFrom: Slide, slideTo: Slide, presentation: Presentation): Presentation {
+    if (presentation.selection.SelectedSlidesIds.indexOf(slideFrom.id) == -1) {
         throw new Error('Can\'t move slide that isn\'t selected');
     }
 
+    const slides: Array<Slide> = presentation.slides;
+    
+    const tmp = slideTo;
+    slideTo = slideFrom;
+    slideFrom = tmp;
+
     return {
-        ...presentation
+        ...presentation,
+        slides: slides
     }
 }
 
-function changeSlideBackground(slide: Slide, newBackground: ImageSrc | SolidColor | GradientColor, selection: GlobalSelection): Slide {
+function changeSlideBackground(slide: Slide, newBackground: SolidColor | GradientColor | ImageSrc, selection: GlobalSelection): Slide {
     if (selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
         throw new Error('Can\'t change background of slide that isn\'t selected');
     }
@@ -66,7 +77,7 @@ function addObject(slide: Slide, object: SlideObject, selection: GlobalSelection
         throw new Error('Can\'t change add objects on slide that isn\'t selected');
     }
 
-    const modifiedObjects = slide.objects;
+    const modifiedObjects: Array<SlideObject> = slide.objects;
     modifiedObjects.push(object);
 
     return {
@@ -105,7 +116,7 @@ function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY:
     }
 
     const objects: Array<SlideObject> = slide.objects;
-    const index = objects.indexOf(objectToMove);
+    const index: number = objects.indexOf(objectToMove);
 
     if (index == -1) {
         throw new Error('Object doen\'t exist on this slide');
@@ -168,8 +179,25 @@ function changeTextScale(textArea: TextArea, newSize: number, selection: GlobalS
     }
 }
 
+function selectObject(selection: GlobalSelection, slideId: string, objectId: string): GlobalSelection {
+    return {
+        ...selection,
+        SelectedSlidesIds: [slideId],
+        SelectedObjectsIds: [objectId]
+    };
+}
+
+function selectSlide(selection: GlobalSelection, slideId: string): GlobalSelection {
+    return {
+        ...selection,
+        SelectedSlidesIds: [slideId],
+        SelectedObjectsIds: []
+    };
+}
+
 export {
     changePresentationTitle, addSlide, deleteSlide, moveSlide,
     addObject, deleteObject, moveObject, changeSlideBackground,
-    changeTextValue, changeTextFont, changeTextScale, changeTextColor
+    changeTextValue, changeTextFont, changeTextScale, changeTextColor,
+    selectObject, selectSlide
 }
