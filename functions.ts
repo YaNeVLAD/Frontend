@@ -1,4 +1,4 @@
-import { type ImageSrc, type Presentation, type Slide, type SlideObject, type TextArea, type SolidColor, type GradientColor, type GlobalSelection } from "./types";
+import { type ImageSrc, type Presentation, type Slide, type TextArea, type SolidColor, type GradientColor, type GlobalSelection, Image } from "./types";
 
 function changePresentationTitle(title: string, presentation: Presentation): Presentation {
     return {
@@ -76,12 +76,12 @@ function changeSlideBackground(slide: Slide, newBackground: SolidColor | Gradien
     }
 }
 
-function addObject(slide: Slide, object: SlideObject, selection: GlobalSelection): Slide {
+function addObject(slide: Slide, object: Image | TextArea, selection: GlobalSelection): Slide {
     if (selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
         throw new Error('Can\'t change add objects on slide that isn\'t selected');
     }
 
-    const modifiedObjects: Array<SlideObject> = slide.objects;
+    const modifiedObjects = slide.objects;
     modifiedObjects.push(object);
 
     return {
@@ -90,7 +90,7 @@ function addObject(slide: Slide, object: SlideObject, selection: GlobalSelection
     }
 }
 
-function deleteObject(slide: Slide, object: SlideObject, selection: GlobalSelection): Slide {
+function deleteObject(slide: Slide, object: Image | TextArea, selection: GlobalSelection): Slide {
     if (selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
         throw new Error('Can\'t delete object on slide that isn\'t selected');
     }
@@ -99,7 +99,7 @@ function deleteObject(slide: Slide, object: SlideObject, selection: GlobalSelect
         throw new Error('Can\'t delete object that isn\'t selected');
     }
 
-    const modifiedObjects: Array<SlideObject> = slide.objects;
+    const modifiedObjects = slide.objects;
     const index: number = modifiedObjects.indexOf(object);
 
     if (index == -1) {
@@ -114,12 +114,12 @@ function deleteObject(slide: Slide, object: SlideObject, selection: GlobalSelect
     }
 }
 
-function moveObject(slide: Slide, objectToMove: SlideObject, newX: number, newY: number, selection: GlobalSelection): Slide {
+function moveObject(slide: Slide, objectToMove: Image | TextArea, newX: number, newY: number, selection: GlobalSelection): Slide {
     if (selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
         throw new Error('Can\'t move slide that isn\'t selected');
     }
 
-    const objects: Array<SlideObject> = slide.objects;
+    const objects = slide.objects;
     const index: number = objects.indexOf(objectToMove);
 
     if (index == -1) {
