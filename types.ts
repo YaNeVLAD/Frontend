@@ -11,7 +11,7 @@ type GlobalSelection = {
 
 type Slide = {
     id: string,
-    objects: Array<SlideObject>,
+    objects: Array<Image | TextArea>,
     background: SolidColor | GradientColor | ImageSrc,
 }
 
@@ -44,8 +44,7 @@ type SlideObject = {
     },
     turnAngle: number,
 }
-//Хранить не массив SlideObject, а массив из картинок/текстов
-//Как отличить их в массиве друг от друга
+
 type Image = SlideObject & {
     type: 'imageObj',
     src: ImageSrc,
