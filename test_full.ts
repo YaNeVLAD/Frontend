@@ -8,8 +8,6 @@ import {
 
 import { Presentation, Slide, Image, TextArea, SolidColor } from './types';
 
-// Полные данные
-
 const fullImage: Image = {
     id: 'object1',
     type: 'imageObj',
@@ -66,9 +64,9 @@ const fullPresentation: Presentation = {
         SelectedObjectsIds: [],
     },
 };
-
-// Обновленные тесты
-
+/* ///////
+    TESTS
+*/ ///////
 console.log("1. Изменение заголовка презентации");
 const updatedTitlePresentation = changePresentationTitle('Updated Project Presentation', fullPresentation);
 console.log(updatedTitlePresentation.title);

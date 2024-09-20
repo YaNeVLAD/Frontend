@@ -8,7 +8,6 @@ import {
 
 import { Presentation, Slide, Image, TextArea, SolidColor } from './types';
 
-// Минимальные данные
 const minimalPresentation: Presentation = {
     title: '',
     slides: [],
@@ -50,9 +49,9 @@ const minimalSlide2: Slide = {
     objects: [],
     background: { color: 'white', type: 'solid' } as SolidColor,
 };
-
-// Тесты с минимальными данными
-
+/* ///////
+    TESTS
+*/ ///////
 console.log("1. Изменение заголовка презентации");
 const updatedTitleMinimalPresentation = changePresentationTitle('Minimal Presentation', minimalPresentation);
 console.log(updatedTitleMinimalPresentation.title);
