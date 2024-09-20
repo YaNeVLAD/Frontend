@@ -26,6 +26,10 @@ function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
         throw new Error('Can\'t delete slide that isn\'t selected');
     }
 
+    if (presentation.slides.length == 1) {
+        throw new Error('Can\'t delete last slide of the presentation')
+    }
+
     const index: number = presentation.slides.indexOf(slide);
     if (index == -1) {
         throw new Error('Can\'t delete slide that isn\'t in presentation')
@@ -34,13 +38,13 @@ function deleteSlide(slide: Slide, presentation: Presentation): Presentation {
     const modifiedSlides: Array<Slide> = presentation.slides;
     modifiedSlides.splice(index, 1);
 
-    const modifiedSelection: GlobalSelection = presentation.selection;
-    modifiedSelection.SelectedSlidesIds.splice(index, 1);
-
     return {
         ...presentation,
         slides: modifiedSlides,
-        selection: modifiedSelection
+        selection: {
+            SelectedSlidesIds: [modifiedSlides[0].id],
+            SelectedObjectsIds: []
+        }
     }
 }
 

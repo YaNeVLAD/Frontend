@@ -40,15 +40,19 @@ function deleteSlide(slide, presentation) {
     if (presentation.selection.SelectedSlidesIds.indexOf(slide.id) == -1) {
         throw new Error('Can\'t delete slide that isn\'t selected');
     }
+    if (presentation.slides.length == 1) {
+        throw new Error('Can\'t delete last slide of the presentation');
+    }
     var index = presentation.slides.indexOf(slide);
     if (index == -1) {
         throw new Error('Can\'t delete slide that isn\'t in presentation');
     }
     var modifiedSlides = presentation.slides;
     modifiedSlides.splice(index, 1);
-    var modifiedSelection = presentation.selection;
-    modifiedSelection.SelectedSlidesIds.splice(index, 1);
-    return __assign(__assign({}, presentation), { slides: modifiedSlides, selection: modifiedSelection });
+    return __assign(__assign({}, presentation), { slides: modifiedSlides, selection: {
+            SelectedSlidesIds: [modifiedSlides[0].id],
+            SelectedObjectsIds: []
+        } });
 }
 function moveSlide(slideFrom, slideTo, presentation) {
     if (presentation.selection.SelectedSlidesIds.indexOf(slideFrom.id) == -1) {

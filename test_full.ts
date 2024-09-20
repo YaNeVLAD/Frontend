@@ -6,21 +6,9 @@ import {
     selectObject
 } from './functions';
 
-import { Presentation, Slide, Image, TextArea, SolidColor, GradientColor, ImageSrc } from './types';
+import { Presentation, Slide, Image, TextArea, SolidColor } from './types';
 
 // Полные данные
-const fullPresentation: Presentation = {
-    title: 'Project Presentation',
-    slides: [
-        { id: 'slide1', objects: [], background: { color: 'red', type: 'solid' } as SolidColor },
-        { id: 'slide2', objects: [], background: { color: 'blue', type: 'gradient' } as GradientColor },
-        { id: 'slide3', objects: [], background: { src: 'image1.png', type: 'image' } as ImageSrc },
-    ],
-    selection: {
-        SelectedSlidesIds: ['slide1'],
-        SelectedObjectsIds: ['object1'],
-    },
-};
 
 const fullImage: Image = {
     id: 'object1',
@@ -43,11 +31,47 @@ const fullTextArea: TextArea = {
     textSize: 16,
 };
 
+const fullSlide1: Slide = {
+    id: 'slide1',
+    objects: [fullTextArea, fullImage],
+    background: {
+        color: 'red',
+        type: 'solid'
+    }
+}
+
+const fullSlide2: Slide = {
+    id: 'slide2',
+    objects: [fullTextArea, fullTextArea],
+    background: {
+        src: 'image.png',
+        type: 'image'
+    }
+}
+
+const fullSlide3: Slide = {
+    id: 'slide3',
+    objects: [fullImage, fullImage],
+    background: {
+        color: 'blue',
+        type: 'gradient'
+    }
+}
+
+const fullPresentation: Presentation = {
+    title: 'Project Presentation',
+    slides: [fullSlide1, fullSlide2, fullSlide3],
+    selection: {
+        SelectedSlidesIds: ['slide1'],
+        SelectedObjectsIds: [],
+    },
+};
+
 // Обновленные тесты
 
 console.log("1. Изменение заголовка презентации");
 const updatedTitlePresentation = changePresentationTitle('Updated Project Presentation', fullPresentation);
-console.log(updatedTitlePresentation.title); // Должен вывести новый заголовок
+console.log(updatedTitlePresentation.title);
 
 console.log("2. Добавление нового слайда");
 const newSlide: Slide = {
@@ -57,31 +81,45 @@ const newSlide: Slide = {
 };
 
 const presentationWithNewSlide = addSlide(newSlide, fullPresentation);
-console.log(presentationWithNewSlide.slides); // Должен содержать новый слайд
+console.log(presentationWithNewSlide.slides);
 
 console.log("3. Выделение слайда");
-fullPresentation.selection = selectSlide(fullPresentation.selection, fullPresentation.slides[0].id)
-console.log(fullPresentation.selection.SelectedSlidesIds); // Выделен слайд 'slide1'
+fullPresentation.selection = selectSlide(fullPresentation.selection, fullSlide1.id)
+console.log(fullPresentation.selection.SelectedSlidesIds);
 
 console.log("4. Выделение объекта");
-fullPresentation.selection = selectObject(fullPresentation.selection, fullPresentation.slides[0].id, fullImage.id)
-console.log(fullPresentation.selection.SelectedObjectsIds); // Выделен объект 'object1'
+fullPresentation.selection = selectObject(fullPresentation.selection, fullSlide1.id, fullImage.id)
+console.log(fullPresentation.selection);
 
 console.log("5. Добавление объекта на слайд");
-const presentationWithNewObject = addObject(fullPresentation.slides[0], fullImage, fullPresentation.selection);
-console.log(presentationWithNewObject.objects); // Должен содержать новый объект
+const newImage: Image = {
+    id: 'object3',
+    type: 'imageObj',
+    pos: { x: 50, y: 50 },
+    size: { width: 250, height: 250 },
+    turnAngle: 90,
+    src: { src: 'image2.png', type: 'image' },
+};
+
+const presentationWithNewObject = addObject(fullPresentation.slides[0], newImage, fullPresentation.selection);
+console.log(presentationWithNewObject.objects);
 
 console.log("6. Перемещение объекта");
-fullPresentation.selection = selectObject(fullPresentation.selection, fullPresentation.slides[0].id, fullImage.id)
+fullPresentation.selection = selectObject(fullPresentation.selection, fullSlide1.id, fullImage.id)
 const fullMovedObject = moveObject(fullPresentation.slides[0], fullImage, 300, 400, fullPresentation.selection);
 console.log(fullMovedObject);
 
 console.log("7. Изменение фона");
-const fullUpdatedSlideBackground = changeSlideBackground(fullPresentation.slides[0], { color: 'green', type: 'solid' }, fullPresentation.selection);
+const newBackground: SolidColor = {
+    color: 'green',
+    type: 'solid',
+}
+
+const fullUpdatedSlideBackground = changeSlideBackground(fullSlide1, newBackground, fullPresentation.selection);
 console.log(fullUpdatedSlideBackground);
 
 console.log("8. Изменение текста");
-fullPresentation.selection = selectObject(fullPresentation.selection, fullPresentation.slides[0].id, fullTextArea.id)
+fullPresentation.selection = selectObject(fullPresentation.selection, fullSlide1.id, fullTextArea.id)
 const updatedFullText = changeTextValue(fullTextArea, 'Updated Text', fullPresentation.selection);
 console.log(updatedFullText);
 
@@ -98,15 +136,16 @@ const updatedFullTextSize = changeTextScale(fullTextArea, 32, fullPresentation.s
 console.log(updatedFullTextSize);
 
 console.log("12. Удаление объекта");
-fullPresentation.selection = selectObject(fullPresentation.selection, fullPresentation.slides[0].id, fullImage.id)
-const fullSlideAfterObjectDeletion = deleteObject(fullPresentation.slides[0], fullImage, fullPresentation.selection);
+fullPresentation.selection = selectObject(fullPresentation.selection, fullSlide1.id, fullImage.id);
+const fullSlideAfterObjectDeletion = deleteObject(fullSlide1, fullImage, fullPresentation.selection);
 console.log(fullSlideAfterObjectDeletion);
 
 console.log("13. Удаление слайда");
-const fullPresentationAfterSlideDeletion = deleteSlide(fullPresentation.slides[0], fullPresentation);
+const fullPresentationAfterSlideDeletion = deleteSlide(fullSlide1, fullPresentation);
 console.log(fullPresentationAfterSlideDeletion);
 
 console.log("14. Перемещение слайда");
-fullPresentation.selection.SelectedSlidesIds = [fullPresentation.slides[0].id]; // Выделяем слайд
-const fullMovedSlide = moveSlide(fullPresentation.slides[0], fullPresentation.slides[1], fullPresentation);
+
+fullPresentation.selection = selectSlide(fullPresentationAfterSlideDeletion.selection, fullSlide2.id);
+const fullMovedSlide = moveSlide(fullSlide2, fullSlide3, fullPresentation);
 console.log(fullMovedSlide);
